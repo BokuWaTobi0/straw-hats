@@ -5,9 +5,11 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { UserAuthProvider } from './contexts/user-auth-context.context.jsx'
 import { GlobalDataProvider } from './contexts/global-data.context.jsx'
+import { GlobalDbProvider } from './contexts/global-db.context.jsx'
 
 createRoot(document.getElementById('root')).render(
   <UserAuthProvider>
+  <GlobalDbProvider>
   <GlobalDataProvider>
   <BrowserRouter>
   <StrictMode>
@@ -15,5 +17,6 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>
   </BrowserRouter>
   </GlobalDataProvider>
+  </GlobalDbProvider>
   </UserAuthProvider>,
 )

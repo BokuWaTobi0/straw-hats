@@ -25,7 +25,7 @@ const Catalog = () => {
     const [isDeleteDialogOpen,setIsDeleteDialogOpen]=useState(false);
     const [videoObject,setVideoObject]=useState({videoName:'',videoId:''});
     
-
+    console.log(user)
     // const [filterData,setFilterData]=useState(data);
 
     // const handleFilterData=(value)=>{
@@ -82,7 +82,7 @@ const Catalog = () => {
                     <h3>{obj?.videoName}</h3>
                     <h3>{obj?.videoDuration}</h3>
                 </div>
-                    {!user && <div className='btns '>
+                    {user && <div className='btns '>
                         <button className='c-btn' onClick={()=>handleEdit(obj?.id)}><FaPen/></button>
                         <button className='c-btn' onClick={()=>handleDelete(obj?.id,obj?.videoName)}><FaTrash/></button>
                     </div>}

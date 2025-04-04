@@ -2,11 +2,12 @@ import  { useState } from 'react';
 import './authenticate-user.styles.scss';
 import { realtimeDb,createApplicationUser,signInUser } from '../../utils/firebase';
 import {  ref,set } from 'firebase/database';
-
+import {useGlobalDbContext} from '../../contexts/global-db.context';
 
 const AuthenticateUser = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [authMode, setAuthMode] = useState('login');
+  const {admins}=useGlobalDbContext();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -28,7 +29,7 @@ const AuthenticateUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if(isAdmin){
-      handleAdminSignIn()
+      handleAdminSignIn(formData)
     }else{
       if(authMode==='create'){
           handleCreateUser(formData)
@@ -73,8 +74,13 @@ const AuthenticateUser = () => {
     }
   }
 
-  const handleAdminSignIn=()=>{
-    console.log('call admin sign in')
+  const handleAdminSignIn=async(formData)=>{
+    const adminEmails=admins.map(admin=>admin.adminEmail)
+    if(!adminEmails.includes(formData.email)){
+      console.log('not an admin')
+    }else{
+      await signInUser(formData.email,formData.password)
+    }
   }
 
   return (
