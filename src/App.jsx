@@ -9,12 +9,12 @@ import Catalog from './routes/catalog/catalog.component';
 import '@fontsource/poppins';
 import '@fontsource/bebas-neue';
 import { useUserAuthContext } from "./contexts/user-auth-context.context";
-import Dummy from "./routes/dummy/dummy";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./utils/firebase";
 import AddAdmins from "./routes/add-admins/add-admins.component";
 import User from '../src/routes/user/user.component'
 import Watch from '../src/routes/watch/watch.component';
+import Quizzes from '../src/routes/quizzes/quizzes.component';
 
 function App() {
 
@@ -49,10 +49,11 @@ function App() {
         <Route path="user" element={<User/>} />
         <Route path="watch/:code" element={<Watch/>} />
         <Route path="upload-video" element={<UploadVideo/>} />
+        <Route path="quizzes" element={<Quizzes/>} />
       </Route>
     </Routes>
     </Fragment>
   )
 }
 
-export default App
+export default App;

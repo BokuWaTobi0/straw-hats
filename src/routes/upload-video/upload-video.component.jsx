@@ -1,7 +1,7 @@
 import './upload-video.styles.scss';
 import AsyncLoader from '../../components/async-loader/async-loader.component';
 import {useUserAuthContext} from '../../contexts/user-auth-context.context';
-import { FaYoutube } from "react-icons/fa6";
+import { FaYoutube, FaUpload, FaVideo, FaLink, FaClock, FaFolder } from "react-icons/fa6";
 import SubmitButton from '../../components/submit-button/submit-button.component';
 import { useState } from 'react';
 import { options } from '../../utils/helpers';
@@ -94,30 +94,131 @@ const UploadVideo = () => {
 
     return ( 
         <div className='upload-video-div'>
-            <h1>Upload videos</h1>
-            <form className='main' onSubmit={handleSubmit}>
-                <div className='n-and-d'>
-                <input className='c-input' name='videoName' required minLength={"4"} placeholder='Video name' value={inputData.videoName} onChange={handleChange} maxLength={"200"} />
-                <input className='c-input' name='videoDuration' required minLength={"2"} placeholder='Video duration (h:m:s)' value={inputData.videoDuration} onChange={handleChange} maxLength={"20"} />
+            <div className="upload-header">
+                <FaUpload className="upload-icon" />
+                <h1>Upload Video</h1>
+            </div>
+            
+            <form className='upload-form' onSubmit={handleSubmit}>
+                <div className="form-section">
+                    <div className="input-group">
+                        <label htmlFor="videoName">
+                            <FaVideo className="input-icon" />
+                            <span>Video Name</span>
+                        </label>
+                        <input 
+                            id="videoName"
+                            className='form-input' 
+                            name='videoName' 
+                            required 
+                            minLength="4" 
+                            placeholder='Enter video title' 
+                            value={inputData.videoName} 
+                            onChange={handleChange} 
+                            maxLength="200" 
+                        />
+                    </div>
+                    
+                    <div className="input-group">
+                        <label htmlFor="videoDuration">
+                            <FaClock className="input-icon" />
+                            <span>Duration</span>
+                        </label>
+                        <input 
+                            id="videoDuration"
+                            className='form-input' 
+                            name='videoDuration' 
+                            required 
+                            minLength="2" 
+                            placeholder='Format: h:m:s (e.g. 1:30:45)' 
+                            value={inputData.videoDuration} 
+                            onChange={handleChange} 
+                            maxLength="20" 
+                        />
+                    </div>
                 </div>
-                <input className='c-input link' name='videoLink' required placeholder='Video link (youtube)' value={inputData.videoLink} onChange={handleChange} maxLength={"250"} />
-                <div className='yt-frame'>
-                    {!isChecked ? <FaYoutube className='icon' /> : <img src={`https://img.youtube.com/vi/${ytVideoCode}/hqdefault.jpg`}  />}
-                    <button type='button' onClick={handleYTVideoCheck} className='c-btn'>Check now</button>
+                
+                <div className="form-section">
+                    <div className="input-group full-width">
+                        <label htmlFor="videoLink">
+                            <FaLink className="input-icon" />
+                            <span>YouTube Link</span>
+                        </label>
+                        <input 
+                            id="videoLink"
+                            className='form-input' 
+                            name='videoLink' 
+                            required 
+                            placeholder='Paste YouTube video link (https://youtu.be/... or https://www.youtube.com/embed/...)' 
+                            value={inputData.videoLink} 
+                            onChange={handleChange} 
+                            maxLength="250" 
+                        />
+                    </div>
                 </div>
-                <div className='cat'>
-                <h4>Category</h4>
-                <select name='categories' onChange={(e)=>setCatOption(e.target.value)}>
-                    {options.map((opt,index)=>{
-                        return <option key={`select-option-key-${index}`} value={opt}>{opt[0].toUpperCase()+opt.slice(1,opt.length)}</option>
-                    })}
-                </select>
+                
+                <div className='preview-section'>
+                    <div className='preview-container'>
+                        {!isChecked ? (
+                            <div className="empty-preview">
+                                <FaYoutube className='preview-icon' />
+                                <p>Video preview will appear here</p>
+                            </div>
+                        ) : (
+                            <div className="video-preview">
+                                <img 
+                                    src={`https://img.youtube.com/vi/${ytVideoCode}/hqdefault.jpg`} 
+                                    alt="Video thumbnail" 
+                                />
+                                <div className="preview-overlay">
+                                    <FaYoutube className="play-icon" />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <button 
+                        type='button' 
+                        onClick={handleYTVideoCheck} 
+                        className='check-button'
+                        disabled={!inputData.videoLink}
+                    >
+                        Preview Video
+                    </button>
                 </div>
-                <SubmitButton text={"Submit"} state={isLoading} />
-                <span>{statusCodes[statusCode]}</span>
+                
+                <div className='category-section'>
+                    <label htmlFor="category">
+                        <FaFolder className="input-icon" />
+                        <span>Category</span>
+                    </label>
+                    <select 
+                        id="category"
+                        name='categories' 
+                        onChange={(e) => setCatOption(e.target.value)}
+                        value={catOption}
+                    >
+                        {options.map((opt, index) => (
+                            <option 
+                                key={`select-option-key-${index}`} 
+                                value={opt}
+                            >
+                                {opt[0].toUpperCase() + opt.slice(1)}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                
+                <div className="submit-section">
+                    <SubmitButton text={"Upload Video"} state={isLoading} />
+                    {statusCode > 0 && (
+                        <div className={`status-message ${statusCode === 1 ? 'success' : 'error'}`}>
+                            {statusCodes[statusCode]}
+                        </div>
+                    )}
+                </div>
             </form>
         </div>
-     );
+    );
 }
  
 export default UploadVideo;

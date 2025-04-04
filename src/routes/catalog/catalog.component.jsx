@@ -13,6 +13,7 @@ import { FaPen, FaPlay, FaFilter } from 'react-icons/fa';
 import { FaTrash, FaArrowLeft } from 'react-icons/fa6';
 import DeleteDialog from '../../components/delete-dialog/delete-dialog.component';
 import { useGlobalDbContext } from '../../contexts/global-db.context';
+import RenameDialog from '../../components/rename-dialog/rename-dialog.component';
 
 // const dataAr=[{id:345,videoName:'test',videoDuration:'4:34',videoLink:'Ec08db2hP10?si=FXyltz-6OAogrrDj'}]
 
@@ -24,7 +25,8 @@ const Catalog = () => {
     const router = useNavigate();
     const { handleSetVideoDataObject, isAdmin, userData } = useGlobalDataContext();
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-    const [videoObject, setVideoObject] = useState({ videoName: '', videoId: '' });
+    const [isRenameDialogOpen,setIsRenameDialogOpen]=useState(false);
+    const [videoObject, setVideoObject] = useState({ videoName: '', videoId: '',videoDuration:'' });
     const { admins, orgs } = useGlobalDbContext();
     const [filteredData, setFilteredData] = useState([]);
 
@@ -66,8 +68,9 @@ const Catalog = () => {
         setIsDeleteDialogOpen(true)
     }
 
-    const handleEdit = (id) => {
-        console.log(id);
+    const handleEdit = (id,name,duration) => {
+        setVideoObject({videoName:name,videoId:id,videoDuration:duration})
+        setIsRenameDialogOpen(true)
     }
 
     const handleFilterData = (value) => {
@@ -129,7 +132,7 @@ const Catalog = () => {
                                 </div>
                                 {isAdmin && (
                                     <div className='action-buttons'>
-                                        <button className='edit-btn' onClick={() => handleEdit(obj?.id)}>
+                                        <button className='edit-btn' onClick={() => handleEdit(obj?.id,obj?.videoName,obj?.videoDuration)}>
                                             <FaPen />
                                         </button>
                                         <button className='delete-btn' onClick={() => handleDelete(obj?.id, obj?.videoName)}>
@@ -143,6 +146,7 @@ const Catalog = () => {
                 </div>
             )}
             {isDeleteDialogOpen && <DeleteDialog videoName={videoObject.videoName} videoId={videoObject.videoId} setIsDeleteDialogOpen={setIsDeleteDialogOpen} catalogName={catalogName} />}
+            {isRenameDialogOpen && <RenameDialog videoName={videoObject.videoName} videoId={videoObject.videoId} videoDuration={videoObject.videoDuration} setIsRenameDialogOpen={setIsRenameDialogOpen} catalogName={catalogName}  />}
         </div>
     );
 }

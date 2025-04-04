@@ -3,12 +3,12 @@ import { Fragment,useState,useEffect } from 'react';
 import { useNavigate,Outlet } from 'react-router-dom';
 import { FaSun,FaMoon } from 'react-icons/fa6';
 
-const pageIdentifiers=['Home','Catalogs','User'];
+const pageIdentifiers=['Quiz','Catalogs','User'];
 
 const Navbar = () => {
     
     const [page,setPage]=useState('Home');
-    const pageNavigators = ['/','/catalogs','/user']
+    const pageNavigators = ['/quizzes','/catalogs','/user']
     const navigateRouter = useNavigate();
 
     const handleNavigation=(name,path)=>{

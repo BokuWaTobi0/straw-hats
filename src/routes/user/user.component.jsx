@@ -14,9 +14,10 @@ const User = () => {
     const [userDataFetchState,setUserDataFetchState]=useState('loading'); //loading,done
     const {user}=useUserAuthContext();
     const [currentData,setCurrentData]=useState();
-    const {admins,adminEmails}=useGlobalDbContext();
+    const {admins,adminEmails,orgs}=useGlobalDbContext();
     const {userData,isAdmin}=useGlobalDataContext();
     const navigate = useNavigate();
+    const [userOrg,setUserOrg]=useState('')
     
     useEffect(()=>{
         if(adminEmails.includes(user?.email)){
@@ -24,6 +25,8 @@ const User = () => {
             setCurrentData(currentUserData[0]);
             setUserDataFetchState('')
         }else{
+            const userOrg = orgs.filter(org=>org.key===userData.userOrganization)[0]
+            setUserOrg(userOrg.orgName);
             setCurrentData(userData);
             setUserDataFetchState('');
         }
@@ -64,7 +67,7 @@ const User = () => {
                         </div>
                         <div className="info-item">
                             <span className="label">Organization</span>
-                            <p className="value">{currentData?.userOrganization}</p>
+                            <p className="value">{userOrg ? userOrg : currentData?.userOrganization}</p>
                         </div>
                         <div className="info-item">
                             <span className="label">Access Type</span>
