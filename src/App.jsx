@@ -36,7 +36,7 @@ function App() {
     checkAuthState();      
   }, [handleSetUser]);
 
-  if(!user){
+  if(user){
     return <AuthenticateUser/>
   }
 
