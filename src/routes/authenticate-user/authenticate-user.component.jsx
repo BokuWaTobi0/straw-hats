@@ -7,7 +7,7 @@ import {useGlobalDbContext} from '../../contexts/global-db.context';
 const AuthenticateUser = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [authMode, setAuthMode] = useState('login');
-  const {admins}=useGlobalDbContext();
+  const {admins,adminEmails,orgs}=useGlobalDbContext();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -15,17 +15,12 @@ const AuthenticateUser = () => {
     organization: '',
   });
 
-  const organizations = [
-    { id: "-OMz9C98H-mBUfdCs0yx", name: 'straw hats' },
-    { id: 2, name: 'test b' },
-    { id: 3, name: 'test c' },
-  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if(isAdmin){
@@ -70,12 +65,11 @@ const AuthenticateUser = () => {
       await signInUser(formData.email,formData.password)
       console.log('success signing in user')
     }catch(e){
-      console.log('error signing user')
+      console.log('error signing user',e)
     }
   }
-
+  
   const handleAdminSignIn=async(formData)=>{
-    const adminEmails=admins.map(admin=>admin.adminEmail)
     if(!adminEmails.includes(formData.email)){
       console.log('not an admin')
     }else{
@@ -155,9 +149,9 @@ const AuthenticateUser = () => {
                 required
               >
                 <option value="">Select Organization</option>
-                {organizations.map((org) => (
-                  <option key={org.id} value={org.id}>
-                    {org.name}
+                {orgs.map((org) => (
+                  <option key={org.key} value={org.key}>
+                    {org.orgName}
                   </option>
                 ))}
               </select>

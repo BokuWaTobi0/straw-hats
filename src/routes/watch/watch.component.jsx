@@ -65,9 +65,9 @@ const Watch = () => {
                 <h3>Notes</h3>
                 <button className='c-btn'>Save</button>
                 </div>
-                    <textarea  placeholder='type your notes here' value={notesContent} maxLength={100} onChange={(e)=>setNotesContent(e.target.value)} >
+                    <textarea  placeholder='type your notes here' value={notesContent} maxLength={1000} onChange={(e)=>setNotesContent(e.target.value)} >
                     </textarea>
-                        <p className='limit'>{notesContent.length}/100</p>
+                        <p className='limit'>{notesContent.length}/1000</p>
                 </div>
             </div>
                 <div className='time'>

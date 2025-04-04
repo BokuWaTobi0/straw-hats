@@ -3,12 +3,12 @@ import { Fragment,useState,useEffect } from 'react';
 import { useNavigate,Outlet } from 'react-router-dom';
 import { FaSun,FaMoon } from 'react-icons/fa6';
 
-const pageIdentifiers=['Home','Catalogs'];
+const pageIdentifiers=['Home','Catalogs','User'];
 
 const Navbar = () => {
     
     const [page,setPage]=useState('Home');
-    const pageNavigators = ['/','/catalogs']
+    const pageNavigators = ['/','/catalogs','/user']
     const [theme,setTheme]=useState(false);
     const navigateRouter = useNavigate();
     const colors=!theme ? ['black','rgb(250,250,250)'] :['rgb(250,250,250)','black']
