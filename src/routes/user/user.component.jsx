@@ -15,7 +15,7 @@ const User = () => {
     const {user}=useUserAuthContext();
     const [currentData,setCurrentData]=useState();
     const {admins,adminEmails}=useGlobalDbContext();
-    const {userData}=useGlobalDataContext();
+    const {userData,isAdmin}=useGlobalDataContext();
     const navigate = useNavigate();
     
     useEffect(()=>{
@@ -30,7 +30,7 @@ const User = () => {
     },[])
 
     const handleAddVideos = () => {
-        navigate('/catalogs');
+        navigate('/upload-video');
     };
 
     if(!user){
@@ -74,10 +74,10 @@ const User = () => {
                 </div>
             </div>
             <div className="user-actions">
-                <button className="c-btn add-videos-btn" onClick={handleAddVideos}>
+                {isAdmin && <button className="c-btn add-videos-btn" onClick={handleAddVideos}>
                     <FaVideo className="btn-icon" />
                     <span>Add Videos</span>
-                </button>
+                </button>}
                 <button className="c-btn signout-btn" onClick={signOutUser}>
                     <FaSignOutAlt className="btn-icon" />
                     <span>Sign Out</span>

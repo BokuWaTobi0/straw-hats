@@ -7,6 +7,9 @@ import { useState } from 'react';
 import { options } from '../../utils/helpers';
 import { ref,push } from 'firebase/database';
 import { realtimeDb } from '../../utils/firebase';
+import { useGlobalDataContext } from '../../contexts/global-data.context';
+import { useGlobalDbContext } from '../../contexts/global-db.context';
+import { useToast } from '../../contexts/toast-context.context';
 
 const statusCodes=['.....','Video added successfully','Error occured try again']
 const shareLinkHead = 'https://youtu.be/';
@@ -21,8 +24,11 @@ const UploadVideo = () => {
     const [ytVideoCode,setYtVideoCode]=useState('');
     const [inputData,setInputData]=useState({videoName:'',videoDuration:'',videoLink:''});
     const [isLoading,setIsLoading]=useState(false);
+    const {isAdmin}=useGlobalDataContext();
+    const {admins,orgs}=useGlobalDbContext();
+    const {showToast}=useToast();
 
-    if(user){
+    if(!isAdmin){
         return <AsyncLoader text={"Nothing Here"} type={"empty"} ls={"150px"} /> ;
     }
     
@@ -43,7 +49,9 @@ const UploadVideo = () => {
         const trimmedCourseDuration = inputData.videoDuration.trim();
         if(user && trimmedVideoName && trimmedCourseDuration && trimmedVideoLink && catOption){
             setIsLoading(true);
-            const dbRef = ref(realtimeDb,`catalogs/${catOption}`);
+            const currentAdmin = admins.filter(admin => admin.adminEmail === user.email)[0];
+               let orgId = orgs.filter(org => org.orgName === currentAdmin.adminOrganization)[0].key
+            const dbRef = ref(realtimeDb,`catalogs/${orgId}/${catOption}`);
             const slicerLength = trimmedVideoLink.startsWith(shareLinkHead) ? 17 : trimmedVideoLink.startsWith(embedLinkHead) ? 30 : 0
             try{
                 await push(dbRef,{
@@ -52,6 +60,7 @@ const UploadVideo = () => {
                     videoLink:trimmedVideoLink.replace(/"/g,'').slice(slicerLength)
                 })
                 statusSetter(1)
+                showToast('Video added successfully');
             }catch(e){
                 console.error(e);
                 statusSetter(2)

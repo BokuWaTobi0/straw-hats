@@ -32,11 +32,11 @@
             position: relative;
             top: 30px;
             border-radius: 50px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            border: 1px solid var(--text-color);
+            transition: .2s ease;
+            
             &:hover{
-                filter: invert(100%);
+            // filter: invert(100%);
+            scale: 1.03;
             }
         }
     }   

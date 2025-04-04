@@ -4,8 +4,8 @@ import { useGlobalDataContext } from '../../contexts/global-data.context';
 import ImgLoader from '../../components/img-loader/img-loader.component';
 import { useState } from 'react';
 import Avatar from 'boring-avatars';
-import { FaNoteSticky } from "react-icons/fa6";
-import { FaStickyNote } from 'react-icons/fa';
+import NotesImage from '../../assets/notes.png';
+import Notes from '../../components/notes/notes.component';
 
 const data=[
     {
@@ -56,25 +56,22 @@ const Watch = () => {
     const {code}=useParams();
     const decodedString= decodeURIComponent(code);
     const {videoDataObject}=useGlobalDataContext();
-    const [notesContent,setNotesContent]=useState('');
+    const [showNotes,setShowNotes]=useState(false);
+
+
+    // const handleNotesSave=()=>{
+    //     handleSetVideoNotes(decodedString,notesContent)
+    // }
 
     return ( 
         <div className='watch-div cc-div'>
             <div className='main'>
-                <ImgLoader type='iframe' iframeId={decodedString} ls={"150px"} />
-                <div className='notes-container'>
-                <div className='head'>
-                <h3>Notes</h3>
-                <button className='c-btn'>Save</button>
-                </div>
-                    <textarea  placeholder='type your notes here' value={notesContent} maxLength={1000} onChange={(e)=>setNotesContent(e.target.value)} >
-                    </textarea>
-                        <p className='limit'>{notesContent.length}/1000</p>
-                </div>
+                <ImgLoader type='iframe' iframeId={decodedString} ls={"150px"} wd={showNotes ? '70%' : '100%'}  />
+                {showNotes && <Notes decodedString={decodedString} />}
             </div>
                 <div className='time'>
                 <p>{videoDataObject?.videoName}</p>
-                <FaStickyNote/>
+                <img src={NotesImage} width={'23px'} onClick={()=>setShowNotes(!showNotes)} />
                 </div>
                 <div className='comments-container'>
                     <div className='head'>{data.length} Comments</div>

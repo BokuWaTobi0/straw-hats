@@ -45,7 +45,6 @@ function App() {
         <Route index element={<Home/>} />
         <Route path="catalogs" element={<Catalogs/>} />
         <Route path="catalog/:catalogName" element={<Catalog/>} />
-        <Route path="dummy" element={<Dummy/>} />
         <Route path="add-admins" element={<AddAdmins/>} />
         <Route path="user" element={<User/>} />
         <Route path="watch/:code" element={<Watch/>} />
