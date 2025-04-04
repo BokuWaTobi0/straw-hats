@@ -1,16 +1,16 @@
 import aptitudeAndReasoning from '../assets/aptitude&reasoning.png';
 import robotics from '../assets/robot.png';
 import dataScience from '../assets/data-science.png';
-import machineLearning from '../assets/machine-learning.png';
-import ethicalHacking from '../assets/ethical hacking.png';
+import machineLearning from '../assets/machine learning.png';
+import ethicalHacking from '../assets/ethical-hacking.png';
 import blockchain from '../assets/blockchain.png';
 import aiAndMl from '../assets/artificial-intelligence (1).png';
 import iot from '../assets/iot.png';
 import informationTechnology from '../assets/IT.png';
 import cyberSecurity from '../assets/cyber.png';
-import webDevlopment from '../assets/software-developer.png';
+import webDevelopment from '../assets/software-developer.png';
 import programming from '../assets/programming.png';
-import appDevlopment from '../assets/app-development.png';
+import appDevelopment from '../assets/app-development.png';
 import digitalMarketing from '../assets/markerting.png';
 import lifeSkillsEnhancement from '../assets/life skill enhancement.png';
 import mathematics from '../assets/math.png';
@@ -19,7 +19,7 @@ import history from '../assets/history.png';
 import geography from '../assets/geography.png';
 import economics from '../assets/economic.png';
 import personalDevelopment from '../assets/personal devlopment.png';
-import healthAndFitness from '../assets/dumbbell.png';
+import healthAndFitness from '../assets/health and fitness.png';
 import languageLearning from '../assets/languages.png';
 import careerGuidance from '../assets/career guidance.png';
 import DesignAndCreativity from '../assets/design&creativity.png';
@@ -37,9 +37,9 @@ export const CatalogsImagesObject  = {
     'IOT': iot,
     'information technology': informationTechnology,
     'cyber security': cyberSecurity,
-    'web devlopment': webDevlopment,
+    'web development': webDevelopment,
     'programming': programming,
-    'app devlopment': appDevlopment,
+    'app development': appDevelopment,
     'digital marketing': digitalMarketing,
     'life skills enhancement': lifeSkillsEnhancement,
     'mathematics': mathematics,
@@ -67,9 +67,9 @@ export const options=[
     'IOT',
     'information technology',
     'cyber security',
-    'web devlopment',
+    'web development',
     'programming',
-    'app devlopment',
+    'app development',
     'digital marketing',
     'life skills enhancement',
     'mathematics',
@@ -210,3 +210,4 @@ export const CatalogProblemStatements = {
         'Create a smart learning assistant that adapts to user progress.'
     ]
 };
+
