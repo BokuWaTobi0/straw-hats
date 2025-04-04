@@ -8,7 +8,9 @@ const GlobalDbContext = createContext();
 
 export const GlobalDbProvider=({children})=>{
 
-    const [admins,setAdmins]=useState([]);
+    const [allAdmins,setAllAdmins]=useState([]);
+    const [adminEmails,setAdminEmails]=useState([]);
+    const [orgs,setOrgs]=useState([])
 
     useEffect(()=>{
         const dbRef = ref(realtimeDb,`admins`);
@@ -16,17 +18,32 @@ export const GlobalDbProvider=({children})=>{
             if(snapshot.exists()){
                 const data = snapshot.val()
                 const adminsData=Object.entries(data).map(([key,{accessType,adminEmail,adminName,adminOrganization}])=>({key,accessType,adminEmail,adminName,adminOrganization}))
-                setAdmins(adminsData)
+                setAllAdmins(adminsData)
             }else{
-                setAdmins([])
+                setAllAdmins([])
             }
         })
         return ()=>off(dbRef)
     },[])
 
+    useEffect(()=>{
+        const dbRef = ref(realtimeDb,`organizations`);
+        onValue(dbRef,(snapshot)=>{
+            if(snapshot.exists()){
+                const data = snapshot.val();
+                const d=Object.entries(data).map(([key,{orgName,admins,createdTime}])=>({key,orgName,admins,createdTime}));
+                setOrgs(d)
+            }
+        })
+    },[])
+    
+    useEffect(()=>{
+        const adminemails = allAdmins.map(admin=>admin.adminEmail)
+        setAdminEmails(adminemails);
+    },[allAdmins])
 
     return(
-        <GlobalDbContext.Provider value={{admins}}>
+        <GlobalDbContext.Provider value={{admins:allAdmins,adminEmails,orgs}}>
             {children}
         </GlobalDbContext.Provider>
     )

@@ -13,6 +13,7 @@ const Catalogs = () => {
     const handleFilterData=(value)=>{
         setFilterData(options.filter(name=>name.toLowerCase().startsWith(value.toLowerCase())))
     }
+    
 
     return ( 
         <div className="catalogs-div cc-div">
