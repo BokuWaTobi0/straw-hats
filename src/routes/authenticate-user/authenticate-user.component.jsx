@@ -7,7 +7,7 @@ import {useGlobalDbContext} from '../../contexts/global-db.context';
 const AuthenticateUser = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [authMode, setAuthMode] = useState('login');
-  const {admins}=useGlobalDbContext();
+  const {admins,adminEmails}=useGlobalDbContext();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -75,7 +75,7 @@ const AuthenticateUser = () => {
   }
 
   const handleAdminSignIn=async(formData)=>{
-    const adminEmails=admins.map(admin=>admin.adminEmail)
+    // const adminEmails=admins.map(admin=>admin.adminEmail)
     if(!adminEmails.includes(formData.email)){
       console.log('not an admin')
     }else{

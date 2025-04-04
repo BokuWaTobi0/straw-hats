@@ -9,6 +9,7 @@ const GlobalDbContext = createContext();
 export const GlobalDbProvider=({children})=>{
 
     const [admins,setAdmins]=useState([]);
+    const [adminEmails,setAdminEmails]=useState([]);
 
     useEffect(()=>{
         const dbRef = ref(realtimeDb,`admins`);
@@ -24,9 +25,13 @@ export const GlobalDbProvider=({children})=>{
         return ()=>off(dbRef)
     },[])
 
+    useEffect(()=>{
+        const adminemails = admins.map(admin=>admin.adminEmail)
+        setAdminEmails(adminemails);
+    },[admins])
 
     return(
-        <GlobalDbContext.Provider value={{admins}}>
+        <GlobalDbContext.Provider value={{admins,adminEmails}}>
             {children}
         </GlobalDbContext.Provider>
     )

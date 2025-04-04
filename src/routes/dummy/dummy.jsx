@@ -2,7 +2,6 @@ import { realtimeDb } from "../../utils/firebase";
 import { push,ref } from "firebase/database";
 import { useUserAuthContext } from "../../contexts/user-auth-context.context";
 import { useState } from "react";
-// import { options } from "../../utils/helpers";
 import { FaYoutube } from "react-icons/fa6";
 import SubmitButton from "../../components/submit-button/submit-button.component";
 import './dummy.scss'
@@ -99,7 +98,7 @@ const Dummy = () => {
                             </div>
                             <div className='cat'>
                             <h4>Category</h4>
-                            <select name='categories' onChange={(e)=>setCatOption(e.target.value)}>
+                            <select name='categories' value={catOption} onChange={(e)=>setCatOption(e.target.value)}>
                                 {categories.map((opt,index)=>{
                                     return <option key={`select-option-key-${index}`} value={opt}>{opt[0].toUpperCase()+opt.slice(1,opt.length)}</option>
                                 })}

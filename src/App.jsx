@@ -24,15 +24,12 @@ function App() {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if(user){
           handleSetUser(user);
-          // setIsLoading(false);
         }else{
-          // setIsLoading(false);
           handleSetUser(null);
         }
       });
       return () => unsubscribe();
     };
-    // setIsLoading(true);
     checkAuthState();      
   }, [handleSetUser]);
 
