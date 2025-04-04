@@ -10,7 +10,6 @@ const QuizHub = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Ensure the user is authenticated before proceeding
         if (user) {
             setLoading(false);
         }
@@ -21,7 +20,7 @@ const QuizHub = () => {
     };
 
     const handleNavigateToAdminQuiz = () => {
-        navigate('/create-quiz');
+        navigate('/admin-quiz');
     };
 
     if (loading) {

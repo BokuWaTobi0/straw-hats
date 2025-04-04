@@ -7,6 +7,7 @@ import {useGlobalDbContext} from '../../contexts/global-db.context';
 import { useGlobalDataContext } from "../../contexts/global-data.context";
 import { useNavigate } from 'react-router-dom';
 import { FaSignOutAlt, FaVideo, FaUserCircle } from 'react-icons/fa';
+import { MdQuiz } from "react-icons/md";
 import './user.styles.scss';
 
 
@@ -26,7 +27,7 @@ const User = () => {
             setUserDataFetchState('')
         }else{
             const userOrg = orgs.filter(org=>org.key===userData.userOrganization)[0]
-            setUserOrg(userOrg.orgName);
+            setUserOrg(userOrg?.orgName);
             setCurrentData(userData);
             setUserDataFetchState('');
         }
@@ -80,6 +81,10 @@ const User = () => {
                 {isAdmin && <button className="c-btn add-videos-btn" onClick={handleAddVideos}>
                     <FaVideo className="btn-icon" />
                     <span>Add Videos</span>
+                </button>}
+                {isAdmin && <button className="c-btn add-videos-btn" onClick={()=>navigate('/create-quiz')}>
+                    <MdQuiz className="btn-icon" />
+                    <span>Create Quiz</span>
                 </button>}
                 <button className="c-btn signout-btn" onClick={signOutUser}>
                     <FaSignOutAlt className="btn-icon" />

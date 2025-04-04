@@ -68,7 +68,6 @@ const UploadQuiz = () => {
   const handleCorrectOptionChange = (questionIndex, optionIndex) => {
     const updatedQuestions = [...questions];
     
-    // Reset all options for this question to false
     updatedQuestions[questionIndex].options.forEach((option, idx) => {
       option.isCorrect = idx === optionIndex;
     });

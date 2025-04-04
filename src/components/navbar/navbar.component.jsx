@@ -1,15 +1,14 @@
 import './navbar.styles.scss';
 import { Fragment,useState } from 'react';
 import { useNavigate,Outlet } from 'react-router-dom';
-import { FaSun,FaMoon } from 'react-icons/fa6';
 
-const pageIdentifiers=['Quiz','Catalogs','User'];
+const pageIdentifiers=['Home','Quiz','Catalogs','User'];
 
 
 const Navbar = () => {
     
     const [page,setPage]=useState('Home');
-    const pageNavigators = ['/quizzes','/catalogs','/user']
+    const pageNavigators = ['/','/quiz-hub','/catalogs','/user']
 
     const navigateRouter = useNavigate();
 

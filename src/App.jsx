@@ -15,7 +15,9 @@ import { auth } from "./utils/firebase";
 import AddAdmins from "./routes/add-admins/add-admins.component";
 import User from '../src/routes/user/user.component'
 import Watch from '../src/routes/watch/watch.component';
-import Quizzes from '../src/routes/quizzes/quizzes.component';
+import UploadQuiz from "./routes/create-quiz/create-quiz.component";
+import AiQuiz from "./routes/ai-quiz/ai-quiz.component";
+import AdminQuiz from "./routes/admin-quiz/admin-quiz.component";
 
 function App() {
 
@@ -51,6 +53,9 @@ function App() {
         <Route path="watch/:code" element={<Watch/>} />
         <Route path="upload-video" element={<UploadVideo/>} />
         <Route path="quiz-hub" element={<QuizHub/>} />
+        <Route path="create-quiz" element={<UploadQuiz/>} />
+        <Route path="ai-quiz" element={<AiQuiz/>} />
+        <Route path="admin-quiz" element={<AdminQuiz/>} />
       </Route>
     </Routes>
     </Fragment>

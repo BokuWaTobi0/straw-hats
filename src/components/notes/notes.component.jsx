@@ -39,7 +39,7 @@ const Notes = ({decodedString}) => {
 
     const handleNotesSave = async () => {
         if (!user) {
-            showToast("Please sign in to save notes", "error");
+            showToast("Please sign in to save notes");
             return;
         }
         try {
@@ -52,10 +52,10 @@ const Notes = ({decodedString}) => {
                 });
             }    
             handleSetVideoNotes(decodedString, notesContent);
-            showToast("Notes saved successfully", "success");
+            showToast("Notes saved successfully");
         } catch (error) {
             console.error("Error saving notes:", error);
-            showToast("Failed to save notes", "error");
+            showToast("Failed to save notes");
         } finally {
             setIsSaving(false);
         }

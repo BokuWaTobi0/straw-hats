@@ -10,7 +10,6 @@ $border-radius: 4px;
 $box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 $transition: all 0.3s ease;
 
-// Mixins
 @mixin button-base {
   display: inline-block;
   font-weight: 500;
@@ -30,18 +29,14 @@ $transition: all 0.3s ease;
   }
 }
 
-// Base styles
 .quiz-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
-//   background-color: white;
-  background-color: var(--bg-color);
+  background-color: white;
   border-radius: 8px;
   box-shadow: $box-shadow;
-//   box-shadow: 3px 3px 3px var(--tile-bs);
   color: var(--text-color);
-//   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 border: 2px solid gray;
 }
 
@@ -49,8 +44,7 @@ border: 2px solid gray;
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
-//   color: $primary-color;
-color: var(--text-color); //ext
+  color: $primary-color;
 }
 
 .quiz-form {
@@ -73,10 +67,8 @@ color: var(--text-color); //ext
   padding: 0.6rem 0.8rem;
   font-size: 1rem;
   line-height: 1.5;
-//   color: $text-color;
-  color: var(--text-color);
-//   background-color: white;
-  background-color: var(--bg-color);
+  color: $text-color;
+  background-color: white;
   border: 1px solid $gray-medium;
   border-radius: $border-radius;
   transition: $transition;
@@ -88,20 +80,15 @@ color: var(--text-color); //ext
   }
 }
 
-// Buttons
 .btn {
   @include button-base;
 }
 
 .btn-primary {
-//   background-color: $primary-color;
-//   color: white;
-background-color: var(--text-color);
-color: var(--bg-color);
-  
+  background-color: $primary-color;
+  color: white;
   &:hover:not(:disabled) {
-    // background-color: $primary-dark;
-    background-color: gray;
+    background-color: $primary-dark;
   }
 }
 
@@ -113,16 +100,13 @@ color: var(--bg-color);
 }
 
 .btn-add {
-//   background-color: $primary-color;
-  background-color: var(--text-color);
-//   color: white;
-  color: var(--bg-color);
+  background-color: $primary-color;
+  color: white;
   padding: 0.3rem 0.8rem;
   font-size: 0.9rem;
   
   &:hover:not(:disabled) {
-    // background-color: $primary-dark;
-    background-color: gray;
+    background-color: $primary-dark;
   }
 }
 
@@ -133,16 +117,13 @@ color: var(--bg-color);
 }
 
 .btn-remove {
-//   background-color: $danger-color;
-  background-color: var(--text-color);
-//   color: white;
-  color: var(--bg-color);
+  background-color: $danger-color;
+  color: white;
   padding: 0.3rem 0.8rem;
   font-size: 0.9rem;
   
   &:hover:not(:disabled) {
-    // background-color: darken($danger-color, 10%);
-    background-color: darken(gray, 10%);
+    background-color: darken($danger-color, 10%);
   }
 }
 
@@ -152,7 +133,6 @@ color: var(--bg-color);
   font-size: 0.8rem;
 }
 
-// Sections
 .questions-section {
   margin-top: 2rem;
 }
@@ -176,14 +156,10 @@ color: var(--bg-color);
   }
 }
 
-// Question Card
 .question-card {
-//   background-color: $gray-light;
-  background-color: var(--bg-color);
-//   border: 1px solid $gray-medium;
-  border: 1px solid gray;
-//   border-radius: $border-radius;
-  border-radius: 4px;
+  background-color: $gray-light;
+  border: 1px solid $gray-medium;
+  border-radius: $border-radius;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
 }
@@ -201,7 +177,6 @@ color: var(--bg-color);
   }
 }
 
-// Options
 .options-container {
   margin-top: 1.5rem;
 }
@@ -224,12 +199,10 @@ color: var(--bg-color);
 
 .helper-text {
   font-size: 0.85rem;
-//   color: $gray-dark;
-  color: gray;
+  color: $gray-dark;
   margin-top: 0.5rem;
 }
 
-// Success Screen
 .success-container {
   text-align: center;
   padding: 3rem 2rem;
@@ -237,7 +210,6 @@ color: var(--bg-color);
 
 .success-heading {
   color: $success-color;
-//   color: $success-color;
   font-size: 1.8rem;
   margin-bottom: 1rem;
 }
