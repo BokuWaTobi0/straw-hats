@@ -13,19 +13,28 @@ export const GlobalDataProvider = ({children})=>{
     const [userData,setUserData]=useState({});
     const {user}=useUserAuthContext();
     const {adminEmails}=useGlobalDbContext();
-    const isAdmin = adminEmails.includes(user?.email)
+    const isAdmin = user?.email ? adminEmails.includes(user.email) : false;
 
     const fetchData=async()=>{
-        const dbRef = ref(realtimeDb,`users/${user.uid}`)
-        const d = await get(dbRef);
-        setUserData(d.val())
+        try {
+            if (!user || !user.uid) return;
+            const dbRef = ref(realtimeDb,`users/${user.uid}`);
+            const snapshot = await get(dbRef);
+            if (snapshot.exists()) {
+                setUserData(snapshot.val());
+            } else {
+                console.log("No data available for this user");
+            }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
     }
 
     useEffect(()=>{
-        if(!user) return;
+        if(!user || !user.uid) return;
         if(adminEmails.includes(user.email)) return;
-         fetchData();
-    },[user])
+        fetchData();
+    },[user, adminEmails]);
 
     const handleSetVideoDataObject=(name,time)=>setVideoDataObject({videoName:name,videoDuration:time});
     const handleSetUserData=(data)=>setUserData(data);
