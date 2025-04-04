@@ -6,10 +6,10 @@ import Home from "./routes/home/home.component"
 import Navbar from "./components/navbar/navbar.component";
 import Catalogs from "./routes/catalogs/catalogs.component";
 import Catalog from './routes/catalog/catalog.component';
+import QuizHub from './routes/quiz-hub/quiz-hub.component';
 import '@fontsource/poppins';
 import '@fontsource/bebas-neue';
 import { useUserAuthContext } from "./contexts/user-auth-context.context";
-import Dummy from "./routes/dummy/dummy";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./utils/firebase";
 import AddAdmins from "./routes/add-admins/add-admins.component";
@@ -49,6 +49,7 @@ function App() {
         <Route path="user" element={<User/>} />
         <Route path="watch/:code" element={<Watch/>} />
         <Route path="upload-video" element={<UploadVideo/>} />
+        <Route path="quiz-hub" element={<QuizHub/>} />
       </Route>
     </Routes>
     </Fragment>
