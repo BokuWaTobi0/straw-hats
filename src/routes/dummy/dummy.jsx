@@ -6,7 +6,7 @@ import { FaYoutube } from "react-icons/fa6";
 import SubmitButton from "../../components/submit-button/submit-button.component";
 import './dummy.scss'
 
-const categories=['entertainment','music','gaming','how-To & Tutorials','technology','beauty & Fashion','lifestyle & Fitness','education','news & Politics','science & Research','travel & Adventure','sports','finance & Business','motivation & Self-Improvement','ASMR & Relaxtion','others']
+const categories=['aptitude & reasoning','robotics','data science','machine learning','ethical hacking','blockchain','AI & ML','IOT','information technology','web devlopment','programming','app devlopment','digital marketing','life skills enhancement','mathematics','science','history','geography','economics','personal development','health and fitness','language learning','career guidance','Design & Creativity','competitive exams','other']
 
 const statusCodes=['.....','Video added successfully','Error occured try again']
 const shareLinkHead = 'https://youtu.be/';
