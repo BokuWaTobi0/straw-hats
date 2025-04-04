@@ -5,16 +5,23 @@ import Loader from '../loader/loader.component';
 import { useState } from 'react';
 import { realtimeDb } from '../../utils/firebase';
 import { ref, remove } from 'firebase/database';
+import { useGlobalDbContext } from '../../contexts/global-db.context';
+import { useUserAuthContext } from '../../contexts/user-auth-context.context';
 
 const DeleteDialog = ({videoName,setIsDeleteDialogOpen,videoId,catalogName}) => {
 
     const [isLoading,setIsLoading]=useState(false);
+    const {orgs,admins}=useGlobalDbContext();
+    const {user}=useUserAuthContext();
+    
 
     const handleEntryDelete=async()=>{
         if(videoId && catalogName){
+            const currentAdmin = admins.filter(admin => admin.adminEmail === user.email)[0];
+               let orgId = orgs.filter(org => org.orgName === currentAdmin.adminOrganization)[0].key
             setIsLoading(true);
             try{
-                const dbRef = ref(realtimeDb,`catalogs/${catalogName}/${videoId}`)
+                const dbRef = ref(realtimeDb,`catalogs/${orgId}/${catalogName}/${videoId}`)
                 await remove(dbRef);
             }catch(e){
                 console.error(e)

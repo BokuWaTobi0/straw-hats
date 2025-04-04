@@ -34,7 +34,7 @@ function App() {
     checkAuthState();      
   }, [handleSetUser]);
 
-  if(user){
+  if(!user){
     return <AuthenticateUser/>
   }
 
@@ -49,6 +49,7 @@ function App() {
         <Route path="add-admins" element={<AddAdmins/>} />
         <Route path="user" element={<User/>} />
         <Route path="watch/:code" element={<Watch/>} />
+        <Route path="upload-video" element={<UploadVideo/>} />
       </Route>
     </Routes>
     </Fragment>

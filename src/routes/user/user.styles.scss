@@ -1,3 +1,193 @@
-.user-div{
-    padding: 20px;
+.user-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem;
+  max-width: 800px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  
+  .user-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    width: 100%;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 1rem;
+    
+    .user-icon {
+      font-size: 2rem;
+      color: #4a6cf7;
+      margin-right: 1rem;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      color: #333;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+  
+  .user-profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 3rem;
+    
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    
+    .avatar-div {
+      margin-bottom: 2rem;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      padding: 5px;
+      background: linear-gradient(145deg, #f0f0f0, #ffffff);
+      
+      @media (min-width: 768px) {
+        margin-right: 3rem;
+        margin-bottom: 0;
+      }
+    }
+    
+    .user-info {
+      text-align: center;
+      width: 100%;
+      
+      @media (min-width: 768px) {
+        text-align: left;
+      }
+      
+      h2 {
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        color: #333;
+        font-size: 2.2rem;
+        font-weight: 700;
+        position: relative;
+        
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: -10px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 50px;
+          height: 3px;
+          background-color: #4a6cf7;
+          
+          @media (min-width: 768px) {
+            left: 0;
+            transform: none;
+          }
+        }
+      }
+      
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        
+        @media (min-width: 576px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .info-item {
+          background-color: #f8f9fa;
+          padding: 1rem;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+          
+          &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+          }
+          
+          .label {
+            display: block;
+            font-weight: 600;
+            color: #4a6cf7;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+          }
+          
+          .value {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #333;
+            word-break: break-word;
+          }
+        }
+      }
+    }
+  }
+  
+  .user-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+    @media (min-width: 576px) {
+      flex-direction: row;
+      justify-content: center;
+    }
+    
+    .c-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 1.8rem;
+      margin: 0.7rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      
+      .btn-icon {
+        margin-right: 0.8rem;
+        font-size: 1.2rem;
+      }
+      
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      }
+      
+      &:active {
+        transform: translateY(1px);
+      }
+      
+      &.add-videos-btn {
+        background-color: #4a6cf7;
+        color: white;
+        
+        &:hover {
+          background-color: #3a5bd9;
+        }
+      }
+      
+      &.signout-btn {
+        background-color: #f44336;
+        color: white;
+        
+        &:hover {
+          background-color: #d32f2f;
+        }
+      }
+    }
+  }
 }

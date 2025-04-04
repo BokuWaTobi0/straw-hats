@@ -4,6 +4,8 @@ import { useGlobalDataContext } from '../../contexts/global-data.context';
 import ImgLoader from '../../components/img-loader/img-loader.component';
 import { useState } from 'react';
 import Avatar from 'boring-avatars';
+import { FaNoteSticky } from "react-icons/fa6";
+import { FaStickyNote } from 'react-icons/fa';
 
 const data=[
     {
@@ -72,7 +74,7 @@ const Watch = () => {
             </div>
                 <div className='time'>
                 <p>{videoDataObject?.videoName}</p>
-                {/* <p>{videoDataObject?.videoDuration}</p> */}
+                <FaStickyNote/>
                 </div>
                 <div className='comments-container'>
                     <div className='head'>{data.length} Comments</div>
