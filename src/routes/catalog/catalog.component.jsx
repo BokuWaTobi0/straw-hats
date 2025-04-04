@@ -12,6 +12,7 @@ import { onValue,ref } from 'firebase/database';
 import { FaPen } from 'react-icons/fa';
 import { FaTrash } from 'react-icons/fa6';
 import DeleteDialog from '../../components/delete-dialog/delete-dialog.component';
+import { useGlobalDbContext } from '../../contexts/global-db.context';
 
 // const dataAr=[{id:345,videoName:'test',videoDuration:'4:34',videoLink:'Ec08db2hP10?si=FXyltz-6OAogrrDj'}]
 
@@ -21,21 +22,24 @@ const Catalog = () => {
     const [isLoading,setIsLoading]=useState(true);
     const {user}=useUserAuthContext();
     const router = useNavigate();
-    const {handleSetVideoDataObject}=useGlobalDataContext();
+    const {handleSetVideoDataObject,isAdmin,userData}=useGlobalDataContext();
     const [isDeleteDialogOpen,setIsDeleteDialogOpen]=useState(false);
     const [videoObject,setVideoObject]=useState({videoName:'',videoId:''});
-    
-    console.log(user)
-    // const [filterData,setFilterData]=useState(data);
-
-    // const handleFilterData=(value)=>{
-    //     setFilterData(data.filter(obj=>obj.videoName.toLowerCase().startsWith(value.toLowerCase())))
-    // }
+    const {admins,orgs}=useGlobalDbContext();
+    // console.log(isAdmin)
 
     useEffect(()=>{
         setIsLoading(true);
         try{
-            const dbRef = ref(realtimeDb,`catalogs/${catalogName}`);
+            let orgId;
+            if(isAdmin){
+                const currentAdmin = admins.filter(admin=>admin.adminEmail===user.email)[0];
+
+                orgId = orgs.filter(org=>org.orgName===currentAdmin.adminOrganization)[0].key
+            }else{
+                orgId = userData.userOrganization;
+            }
+            const dbRef = ref(realtimeDb,`catalogs/${orgId}/${catalogName}`);
             onValue(dbRef,(snapshot)=>{
                 if(!snapshot.exists()){
                     setData([]);

@@ -14,6 +14,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./utils/firebase";
 import AddAdmins from "./routes/add-admins/add-admins.component";
 import User from '../src/routes/user/user.component'
+import Watch from '../src/routes/watch/watch.component';
 
 function App() {
 
@@ -45,9 +46,9 @@ function App() {
         <Route path="catalogs" element={<Catalogs/>} />
         <Route path="catalog/:catalogName" element={<Catalog/>} />
         <Route path="dummy" element={<Dummy/>} />
-        <Route path="authenticate-user" element={<AuthenticateUser/>} />
         <Route path="add-admins" element={<AddAdmins/>} />
         <Route path="user" element={<User/>} />
+        <Route path="watch/:code" element={<Watch/>} />
       </Route>
     </Routes>
     </Fragment>

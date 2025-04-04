@@ -21,7 +21,7 @@ const User = () => {
     useEffect(()=>{
         if(adminEmails.includes(user.email)){
             const currentUserData = admins.filter(admin=>admin.adminEmail===user.email).map(({adminEmail,adminName,adminOrganization,key,accessType})=>({key,accessType,userEmail:adminEmail,userName:adminName,userOrganization:adminOrganization}));
-            setCurrentData(currentUserData);
+            setCurrentData(currentUserData[0]);
             setUserDataFetchState('')
         }else{
             setCurrentData(userData);
@@ -45,13 +45,13 @@ const User = () => {
     return ( 
         <div className="user-div">
             <div className="avatar-div">
-                <Avatar name={currentData?.userName} />
-                <p>{currentData.userName.slice(0,1)}</p>
+                <Avatar name={currentData?.userName} size={'80'} />
+                {/* <p>{currentData.userName.slice(0,1)}</p> */}
             </div>
-            <p>Email: {currentData.userEmail}</p>
-            <p>Name: {currentData.userName}</p>
-            <p>Organization: {currentData.userOrganization}</p>
-            <p>AccessType: {currentData.accessType}</p>
+            <p>Email: {currentData?.userEmail}</p>
+            <p>Name: {currentData?.userName}</p>
+            <p>Organization: {currentData?.userOrganization}</p>
+            <p>AccessType: {currentData?.accessType}</p>
             <button className="c-btn" onClick={signOutUser} >signout</button>
         </div>
      );

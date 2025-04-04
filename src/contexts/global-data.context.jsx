@@ -13,6 +13,7 @@ export const GlobalDataProvider = ({children})=>{
     const [userData,setUserData]=useState({});
     const {user}=useUserAuthContext();
     const {adminEmails}=useGlobalDbContext();
+    const isAdmin = adminEmails.includes(user?.email)
 
     const fetchData=async()=>{
         const dbRef = ref(realtimeDb,`users/${user.uid}`)
@@ -30,7 +31,7 @@ export const GlobalDataProvider = ({children})=>{
     const handleSetUserData=(data)=>setUserData(data);
 
     return(
-        <GlobalDataContext.Provider value={{videoDataObject,handleSetVideoDataObject,userData,handleSetUserData}}>{children}</GlobalDataContext.Provider>
+        <GlobalDataContext.Provider value={{videoDataObject,handleSetVideoDataObject,userData,handleSetUserData,isAdmin}}>{children}</GlobalDataContext.Provider>
     )
 }
 GlobalDataProvider.propTypes={
