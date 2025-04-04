@@ -1,0 +1,8 @@
+@use '../../mixins';
+.catalogs-div{
+    .main{
+        .tile{
+            justify-content: center;
+        }
+    }
+}

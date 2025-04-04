@@ -1,0 +1,248 @@
+$primary-color: #3498db;
+$primary-dark: darken($primary-color, 10%);
+$success-color: #27ae60;
+$danger-color: #e74c3c;
+$gray-light: #f8f9fa;
+$gray-medium: #e9ecef;
+$gray-dark: #6c757d;
+$text-color: #333;
+$border-radius: 4px;
+$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
+
+// Mixins
+@mixin button-base {
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.5rem 1rem;
+  border-radius: $border-radius;
+  transition: $transition;
+  cursor: pointer;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Base styles
+.quiz-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+//   background-color: white;
+  background-color: var(--bg-color);
+  border-radius: 8px;
+  box-shadow: $box-shadow;
+//   box-shadow: 3px 3px 3px var(--tile-bs);
+  color: var(--text-color);
+//   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+border: 2px solid gray;
+}
+
+.main-heading {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+//   color: $primary-color;
+color: var(--text-color); //ext
+}
+
+.quiz-form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  line-height: 1.5;
+//   color: $text-color;
+  color: var(--text-color);
+//   background-color: white;
+  background-color: var(--bg-color);
+  border: 1px solid $gray-medium;
+  border-radius: $border-radius;
+  transition: $transition;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.25);
+  }
+}
+
+// Buttons
+.btn {
+  @include button-base;
+}
+
+.btn-primary {
+//   background-color: $primary-color;
+//   color: white;
+background-color: var(--text-color);
+color: var(--bg-color);
+  
+  &:hover:not(:disabled) {
+    // background-color: $primary-dark;
+    background-color: gray;
+  }
+}
+
+.btn-submit {
+  @extend .btn-primary;
+  font-size: 1.1rem;
+  padding: 0.6rem 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.btn-add {
+//   background-color: $primary-color;
+  background-color: var(--text-color);
+//   color: white;
+  color: var(--bg-color);
+  padding: 0.3rem 0.8rem;
+  font-size: 0.9rem;
+  
+  &:hover:not(:disabled) {
+    // background-color: $primary-dark;
+    background-color: gray;
+  }
+}
+
+.btn-add-small {
+  @extend .btn-add;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+.btn-remove {
+//   background-color: $danger-color;
+  background-color: var(--text-color);
+//   color: white;
+  color: var(--bg-color);
+  padding: 0.3rem 0.8rem;
+  font-size: 0.9rem;
+  
+  &:hover:not(:disabled) {
+    // background-color: darken($danger-color, 10%);
+    background-color: darken(gray, 10%);
+  }
+}
+
+.btn-remove-small {
+  @extend .btn-remove;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+// Sections
+.questions-section {
+  margin-top: 2rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  
+  h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  h5 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+// Question Card
+.question-card {
+//   background-color: $gray-light;
+  background-color: var(--bg-color);
+//   border: 1px solid $gray-medium;
+  border: 1px solid gray;
+//   border-radius: $border-radius;
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  
+  h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+// Options
+.options-container {
+  margin-top: 1.5rem;
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.radio-input {
+  margin-right: 0.8rem;
+  cursor: pointer;
+}
+
+.option-input {
+  flex-grow: 1;
+  margin-right: 0.8rem;
+}
+
+.helper-text {
+  font-size: 0.85rem;
+//   color: $gray-dark;
+  color: gray;
+  margin-top: 0.5rem;
+}
+
+// Success Screen
+.success-container {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.success-heading {
+  color: $success-color;
+//   color: $success-color;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.success-message {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}

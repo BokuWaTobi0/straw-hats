@@ -1,0 +1,62 @@
+@use '../../mixins';
+.dummy-div{
+    min-height: 90vh;
+    padding: 20px;
+    @include mixins.flex-down();
+    align-items: center;
+    gap: 20px;
+    form{
+        min-width: 350px;
+        max-width: 700px;
+        @include mixins.flex-down();
+        padding: 30px 30px 10px;
+        gap: 35px;
+        justify-content: space-between;
+        border: 2px solid;
+        border-radius: 10px;
+        span{
+            text-align: center;
+        }
+        input{
+            flex: 1;
+        }
+        .n-and-d{
+            display: flex;
+            gap: 40px;
+        }
+        .yt-frame{
+            @include mixins.flex-cc();
+            flex-direction: column;
+            margin-top: -20px;
+            gap: 4px;
+            .icon{
+                font-size: 10rem;
+                color: rgb(213, 75, 75);
+            }
+            button{
+                padding: 5px 30px;
+                font-size: 1rem;
+                border-radius: 25px;
+            }
+            img{
+                width: 35%;
+                border-radius: 5px;
+                margin-bottom: 20px;
+            }
+        }
+        .cat{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        select{
+            font-family: inherit;
+            font-size: 1.2rem;
+        }
+        .submit-button-btn{
+            width: 65%;
+            margin: 0 auto;
+        }
+    }
+}

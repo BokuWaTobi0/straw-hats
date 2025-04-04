@@ -1,0 +1,45 @@
+@use '../../mixins';
+
+.delete-dialog-div{
+    position: absolute;
+    background-color: whitesmoke;
+    padding: 30px;
+    border-radius: 5px;
+    @include mixins.flex-down();
+    gap: 12px;
+    max-width: 350px;
+    box-shadow: 3px 3px 5px rgb(213, 213, 213);
+    animation: vSlideDown 0.3s ease;
+    align-items: center;
+    .icon{
+        font-size: 5rem;
+    }
+    p{
+        font-size: 1.4rem;
+        text-align: center;
+    }
+    .btns{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 40px;
+        margin-top: 10px;
+        button{
+            font-size: 1.1rem;
+            padding: 5px 30px;
+            border-radius: 25px;
+        }
+        &>*:nth-child(2){
+            background-color: rgb(221, 8, 8);
+        }
+    }
+}
+@keyframes vSlideDown{
+    from{
+        opacity: 0;
+        margin-top: -25px;
+    }to{
+        opacity: 1;
+        margin-top: 0px;
+    }
+}

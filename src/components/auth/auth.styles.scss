@@ -1,0 +1,39 @@
+@use '../../mixins';
+.auth-div{
+    // border: 1px solid;
+    border-radius: 6px;
+    padding:0px 20px 20px;
+    max-width: 350px;
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    div{
+        @include mixins.flex-cc();
+        img{
+            width: 65%;
+        }
+    }
+    p{
+        text-align: center;
+    }
+    form{
+        @include mixins.flex-down();
+        gap: 30px;
+        padding: 10px;
+        margin-top: 10px;
+        .pass{
+            position: relative;
+            display: flex;
+            input{
+                width: 100%;
+                font-size: 1.3rem;
+            }
+            .eye{
+                position: absolute;
+                right: 0;
+                bottom: 5px;
+                font-size: 1.2rem;
+                cursor: pointer;
+                color: rgb(89, 89, 89);
+            }
+        }
+    }
+}

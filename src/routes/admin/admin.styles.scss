@@ -1,0 +1,30 @@
+@use '../../mixins';
+.admin-div{
+    padding: 20px;
+    min-height: 90vh;
+    @include mixins.flex-cc();
+    .main{
+        @include mixins.flex-down();
+        align-items: center;
+        gap: 25px;
+        .icon{
+            font-size: 15rem;
+        }
+        p{
+            @include mixins.flex-cc();
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: -10px;
+            span{
+                font-weight: 300;
+            }
+        }
+        button{
+            font-size: 1.3rem;
+            padding: 5px 40px;
+            border-radius: 30px;
+            margin-top: 5px;
+        }
+    }
+}

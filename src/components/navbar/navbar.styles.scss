@@ -1,0 +1,38 @@
+@use '../../mixins';
+
+.navbar-div{
+    // border: 1px solid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    // position: fixed;
+    .pages{
+        display: flex;
+        gap: 5px;
+        p{
+            border: 1px solid;
+            padding: 10px 30px;
+            border-radius: 30px;
+            transition: .2s ease-in-out;
+            cursor: pointer;
+        }
+    }
+    .company{
+        font-size: 1.9rem;
+        font-family: "Bebas Neue";
+        cursor: pointer;
+    }
+    .ext{
+        font-size: 1.1rem;
+        cursor: pointer;
+        // border: 1px solid;
+        @include mixins.flex-cc();
+        padding: 10px;
+        border-radius: 50%;
+        &:hover{
+            background-color: var(--hover-clr);
+        }
+    }
+}
