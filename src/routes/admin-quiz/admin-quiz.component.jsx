@@ -6,7 +6,8 @@ import { useUserAuthContext } from '../../contexts/user-auth-context.context';
 import { useGlobalDataContext } from '../../contexts/global-data.context';
 import { useGlobalDbContext } from '../../contexts/global-db.context';
 import AsyncLoader from '../../components/async-loader/async-loader.component';
-import { FaRegClock, FaCheck, FaTimes, FaChevronDown, FaChevronUp, FaEdit, FaTrash, FaPlay } from 'react-icons/fa';
+import { FaRegClock, FaChevronDown, FaChevronUp, FaPlay } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const AdminQuiz = () => {
     const [quizzes, setQuizzes] = useState([]);
@@ -16,7 +17,7 @@ const AdminQuiz = () => {
     const [activeQuiz, setActiveQuiz] = useState(null);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState({});
-    const [quizCompleted, setQuizCompleted] = useState(false);
+    const navigate = useNavigate();
     
     const { user } = useUserAuthContext();
     const { isAdmin } = useGlobalDataContext();
@@ -30,9 +31,28 @@ const AdminQuiz = () => {
             }
             
             try {
-                const currentAdmin = admins.filter(admin => admin.adminEmail === user.email)[0];
-                const orgId = orgs.filter(org => org.orgName === currentAdmin.adminOrganization)[0].key;
+                // Get organization ID
+                const currentAdmin = admins?.filter(admin => admin.adminEmail === user.email)?.[0];
                 
+                if (!currentAdmin) {
+                    console.error('Admin not found for user:', user.email);
+                    setError('Failed to authenticate admin user');
+                    setLoading(false);
+                    return;
+                }
+                
+                const matchingOrg = orgs?.filter(org => org.orgName === currentAdmin.adminOrganization)?.[0];
+                
+                if (!matchingOrg) {
+                    console.error('Organization not found for admin:', currentAdmin.adminOrganization);
+                    setError('Failed to load organization data');
+                    setLoading(false);
+                    return;
+                }
+                
+                const orgId = matchingOrg.key;
+                
+                // Fetch quizzes for this organization
                 const quizzesRef = ref(realtimeDb, `adminQuizzes/${orgId}`);
                 
                 onValue(quizzesRef, (snapshot) => {
@@ -71,7 +91,6 @@ const AdminQuiz = () => {
         setActiveQuiz(quiz);
         setCurrentQuestion(0);
         setSelectedAnswers({});
-        setQuizCompleted(false);
     };
     
     const handleAnswerSelect = (optionIndex) => {
@@ -85,7 +104,26 @@ const AdminQuiz = () => {
         if (currentQuestion < activeQuiz.questions.length - 1) {
             setCurrentQuestion(currentQuestion + 1);
         } else {
-            setQuizCompleted(true);
+            // Navigate to results page instead of showing results directly
+            const userAnswersArray = {};
+            activeQuiz.questions.forEach((question, index) => {
+                if (selectedAnswers[index] !== undefined) {
+                    userAnswersArray[index] = activeQuiz.questions[index].options[selectedAnswers[index]].text;
+                }
+            });
+            
+            navigate('/quiz-results', {
+                state: {
+                    quizTitle: activeQuiz.name,
+                    questions: activeQuiz.questions.map(q => ({
+                        question: q.text,
+                        options: q.options.map(opt => opt.text),
+                        answer: q.options.find(opt => opt.isCorrect).text
+                    })),
+                    userAnswers: userAnswersArray,
+                    passThreshold: 70
+                }
+            });
         }
     };
     
@@ -99,27 +137,6 @@ const AdminQuiz = () => {
         setActiveQuiz(null);
         setSelectedAnswers({});
         setCurrentQuestion(0);
-        setQuizCompleted(false);
-    };
-    
-    const calculateScore = () => {
-        if (!activeQuiz) return { correct: 0, total: 0, percentage: 0 };
-        
-        let correctCount = 0;
-        activeQuiz.questions.forEach((question, index) => {
-            const selectedOptionIndex = selectedAnswers[index];
-            if (selectedOptionIndex !== undefined) {
-                const selectedOption = question.options[selectedOptionIndex];
-                if (selectedOption && selectedOption.isCorrect) {
-                    correctCount++;
-                }
-            }
-        });
-        
-        const total = activeQuiz.questions.length;
-        const percentage = Math.round((correctCount / total) * 100);
-        
-        return { correct: correctCount, total, percentage };
     };
     
     const formatDate = (dateString) => {
@@ -141,10 +158,6 @@ const AdminQuiz = () => {
         return <div className="error-container">{error}</div>;
     }
     
-    // if (!isAdmin) {
-    //     return <AsyncLoader type="empty" ls="60px" text="You don't have permission to view this page" />;
-    // }
-    
     if (quizzes.length === 0) {
         return (
             <div className="admin-quiz-div empty">
@@ -156,93 +169,6 @@ const AdminQuiz = () => {
     
     if (activeQuiz) {
         const currentQuestionData = activeQuiz.questions[currentQuestion];
-        
-        if (quizCompleted) {
-            const score = calculateScore();
-            const percentage = score.percentage;
-            const isCorrect = (selectedOptionIndex, correctOptionIndex) => selectedOptionIndex === correctOptionIndex;
-            
-            return (
-                <div className="admin-quiz-div quiz-result-container">
-                    <h2>Quiz Results</h2>
-                    <p className="quiz-title">{activeQuiz.name}</p>
-                    
-                    <div className="results-overview">
-                        <div className="result-stat score">
-                            <span className="label">Score</span>
-                            <div className="value">{percentage}%</div>
-                            <span className="subtext">Overall performance</span>
-                        </div>
-                        
-                        <div className="result-stat correct">
-                            <span className="label">Correct</span>
-                            <div className="value">{score.correct}</div>
-                            <span className="subtext">of {score.total} questions</span>
-                        </div>
-                        
-                        <div className="result-stat incorrect">
-                            <span className="label">Incorrect</span>
-                            <div className="value">{score.total - score.correct}</div>
-                            <span className="subtext">need improvement</span>
-                        </div>
-                    </div>
-                    
-                    <div className="questions-review">
-                        <h3>Question Analysis</h3>
-                        
-                        <div className="review-list">
-                            {activeQuiz.questions.map((question, qIndex) => {
-                                const selectedOptionIndex = selectedAnswers[qIndex];
-                                const correctOptionIndex = question.options.findIndex(opt => opt.isCorrect);
-                                const answeredCorrectly = selectedOptionIndex !== undefined && 
-                                                           question.options[selectedOptionIndex].isCorrect;
-                                
-                                return (
-                                    <div key={qIndex} className="review-item">
-                                        <div className={`question-header ${answeredCorrectly ? 'correct' : 'incorrect'}`}>
-                                            <div className="status-icon">
-                                                {answeredCorrectly ? <FaCheck /> : <FaTimes />}
-                                            </div>
-                                            <p className="question-text">{question.text}</p>
-                                            <span className="question-number">Q{qIndex + 1}</span>
-                                        </div>
-                                        
-                                        <div className="answers-content">
-                                            <div className="options-list">
-                                                {question.options.map((option, oIndex) => (
-                                                    <div 
-                                                        key={oIndex} 
-                                                        className={`option ${selectedOptionIndex === oIndex ? 'selected' : ''} ${option.isCorrect ? 'correct' : ''}`}
-                                                    >
-                                                        <div className="marker">{String.fromCharCode(65 + oIndex)}</div>
-                                                        <div className="text">{option.text}</div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                            
-                                            {!answeredCorrectly && selectedOptionIndex !== undefined && (
-                                                <div className="correct-answer">
-                                                    <strong>Correct Answer:</strong> {question.options[correctOptionIndex].text}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                    
-                    <div className="actions">
-                        <button className="btn primary" onClick={() => startQuiz(activeQuiz)}>
-                            <FaPlay /> Retry Quiz
-                        </button>
-                        <button className="btn secondary" onClick={exitQuiz}>
-                            Back to Quizzes
-                        </button>
-                    </div>
-                </div>
-            );
-        }
         
         return (
             <div className="admin-quiz-div active-quiz">

@@ -19,6 +19,7 @@ import UploadQuiz from "./routes/create-quiz/create-quiz.component";
 import AiQuiz from "./routes/ai-quiz/ai-quiz.component";
 import AdminQuiz from "./routes/admin-quiz/admin-quiz.component";
 import Progress from "./routes/progress/progress.component";
+import QuizResultsPage from "./routes/quiz-result/quiz-result.component";
 
 function App() {
 
@@ -58,6 +59,7 @@ function App() {
         <Route path="ai-quiz" element={<AiQuiz/>} />
         <Route path="admin-quiz" element={<AdminQuiz/>} />
         <Route path="progress" element={<Progress/>} />
+        <Route path="quiz-results" element={<QuizResultsPage/>} />
 
       </Route>
     </Routes>
