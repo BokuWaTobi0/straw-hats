@@ -1,4 +1,4 @@
-import { Fragment,useEffect } from "react"
+import { Fragment,useEffect, useState } from "react"
 import { Routes,Route } from "react-router-dom"
 import UploadVideo from './routes/upload-video/upload-video.component';
 import AuthenticateUser from '../src/routes/authenticate-user/authenticate-user.component';
@@ -21,24 +21,33 @@ import AdminQuiz from "./routes/admin-quiz/admin-quiz.component";
 import Progress from "./routes/progress/progress.component";
 import QuizResultsPage from "./routes/quiz-result/quiz-result.component";
 import AiBot from "./components/ai-bot/ai-bot.component";
+import AsyncLoader from "./components/async-loader/async-loader.component";
 
 function App() {
 
   const {user,handleSetUser}=useUserAuthContext();
+  const [isLoading,setIsLoading]=useState(true);
 
   useEffect(() => {
     const checkAuthState = async () => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if(user){
           handleSetUser(user);
+          setIsLoading(false);
         }else{
+          setIsLoading(false);
           handleSetUser(null);
         }
       });
       return () => unsubscribe();
     };
+    setIsLoading(true);
     checkAuthState();      
   }, [handleSetUser]);
+
+  if(isLoading){
+    return <AsyncLoader text={'Authenticating user'} type={'loading'} ls={'80px'} />
+  }
 
   if(!user){
     return <AuthenticateUser/>
