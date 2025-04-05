@@ -28,7 +28,7 @@ const QuizHub = () => {
     }
 
     return (
-        <div className="quiz-hub-container">
+        <div className="quiz-hub-container animate__animated animate__fadeInDown">
             <h1>Select Quiz Type</h1>
             <div className="quiz-options">
                 <div className="quiz-option" onClick={handleNavigateToAiQuiz}>

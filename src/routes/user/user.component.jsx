@@ -50,7 +50,7 @@ const User = () => {
     }
 
     return ( 
-        <div className="user-div">
+        <div className="user-div animate__animated animate__fadeInDown">
             <div className="user-header">
                 <FaUserCircle className="user-icon" />
                 <h1>User Profile</h1>

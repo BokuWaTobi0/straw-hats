@@ -26,7 +26,7 @@ const Catalogs = () => {
     };
 
     return (
-        <div className="catalogs-div cc-div">
+        <div className="catalogs-div cc-div animate__animated animate__fadeInDown">
             <div className="catalogs-header">
                 <FaLayerGroup className="header-icon" />
                 <h1>Catalogs</h1>

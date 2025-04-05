@@ -192,7 +192,7 @@ const AdminQuiz = () => {
         const currentQuestionData = activeQuiz.questions[currentQuestion];
         
         return (
-            <div className="admin-quiz-div active-quiz">
+            <div className="admin-quiz-div active-quiz animate__animated animate__fadeInDown">
                 <div className="quiz-header">
                     <h2>{activeQuiz.name}</h2>
                     <div className="progress-container">

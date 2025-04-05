@@ -105,7 +105,7 @@ const Catalog = () => {
     const hasProjects = projects.length > 0;
 
     return (
-        <div className="catalog-div cc-div">
+        <div className="catalog-div cc-div animate__animated animate__fadeInDown">
             <div className="catalog-header">
                 <button className="back-button" onClick={goBack}>
                     <FaArrowLeft />

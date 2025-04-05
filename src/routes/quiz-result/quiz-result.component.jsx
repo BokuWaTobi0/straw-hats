@@ -83,7 +83,7 @@ Result: ${isCorrect ? 'Correct' : 'Incorrect'}
   };
 
   return (
-    <div className="quiz-results-page">
+    <div className="quiz-results-page animate__animated animate__fadeInDown">
       <div className="results-container">
         <header className="results-header">
           <h1>Quiz Results</h1>

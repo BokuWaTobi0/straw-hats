@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
     const router = useNavigate();
     return ( 
-        <div className='home-div'>
+        <div className='home-div animate__animated animate__fadeInDown'>
             <div className='intro'>
                 <h1>Stream. Enjoy. Repeat. Curated Videos, Just for You!</h1>
                 <p>
