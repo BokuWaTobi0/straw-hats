@@ -1,5 +1,11 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import './create-quiz.styles.scss';
+import { realtimeDb } from '../../utils/firebase';
+import { ref, push } from 'firebase/database';
+import { useUserAuthContext } from '../../contexts/user-auth-context.context';
+import { useGlobalDataContext } from '../../contexts/global-data.context';
+import { useGlobalDbContext } from '../../contexts/global-db.context';
+import { useToast } from '../../contexts/toast-context.context';
 
 const UploadQuiz = () => {
   const [quizName, setQuizName] = useState('');
@@ -11,6 +17,12 @@ const UploadQuiz = () => {
     ]
   }]);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const { user } = useUserAuthContext();
+  const { isAdmin } = useGlobalDataContext();
+  const { admins, orgs } = useGlobalDbContext();
+  const { showToast } = useToast();
 
   const handleQuizNameChange = (e) => {
     setQuizName(e.target.value);
@@ -75,19 +87,41 @@ const UploadQuiz = () => {
     setQuestions(updatedQuestions);
   };
 
-  const handleSubmitQuiz = (e) => {
+  const handleSubmitQuiz = async (e) => {
     e.preventDefault();
     
-    const quizData = {
-      name: quizName,
-      questions: questions.map(q => ({
-        text: q.text,
-        options: q.options
-      }))
-    };
-    
-    console.log('Quiz submitted:', quizData);
-    setSubmitted(true);
+    if (!isAdmin || !user) {
+      showToast?.('You do not have permission to create quizzes');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const currentAdmin = admins.filter(admin => admin.adminEmail === user.email)[0];
+      const orgId = orgs.filter(org => org.orgName === currentAdmin.adminOrganization)[0].key;
+      
+      const quizData = {
+        name: quizName,
+        createdBy: user.email,
+        createdAt: new Date().toISOString(),
+        questions: questions.map(q => ({
+          text: q.text,
+          options: q.options
+        }))
+      };
+      
+      const quizRef = ref(realtimeDb, `adminQuizzes/${orgId}`);
+      await push(quizRef, quizData);
+      
+      showToast?.('Quiz created successfully');
+      setSubmitted(true);
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+      showToast?.('Failed to create quiz');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const resetForm = () => {
@@ -233,9 +267,9 @@ const UploadQuiz = () => {
           <button
             type="submit"
             className="btn btn-submit"
-            disabled={!isFormValid()}
+            disabled={!isFormValid() || isSubmitting}
           >
-            Submit Quiz
+            {isSubmitting ? 'Submitting...' : 'Submit Quiz'}
           </button>
         </div>
       </form>
