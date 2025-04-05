@@ -7,7 +7,7 @@ const pageIdentifiers=['Quiz','Catalogs','User','Progress'];
 
 const Navbar = () => {
     
-    const [page,setPage]=useState('Home');
+    const [page,setPage]=useState('');
     const pageNavigators = ['/quiz-hub','/catalogs','/user','/progress']
 
     const navigateRouter = useNavigate();
@@ -20,7 +20,7 @@ const Navbar = () => {
     return ( 
         <Fragment>
         <nav className='navbar-div'>
-            <div className='company' onClick={()=>navigateRouter('/')}>
+            <div className='company' onClick={()=>handleNavigation('','/')}>
                 Streamer
             </div>
             <div className='pages'>

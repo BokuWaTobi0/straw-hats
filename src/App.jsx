@@ -20,6 +20,7 @@ import AiQuiz from "./routes/ai-quiz/ai-quiz.component";
 import AdminQuiz from "./routes/admin-quiz/admin-quiz.component";
 import Progress from "./routes/progress/progress.component";
 import QuizResultsPage from "./routes/quiz-result/quiz-result.component";
+import AiBot from "./components/ai-bot/ai-bot.component";
 
 function App() {
 
@@ -60,9 +61,9 @@ function App() {
         <Route path="admin-quiz" element={<AdminQuiz/>} />
         <Route path="progress" element={<Progress/>} />
         <Route path="quiz-results" element={<QuizResultsPage/>} />
-
       </Route>
     </Routes>
+    <AiBot />
     </Fragment>
   )
 }

@@ -18,41 +18,62 @@ const AdminQuiz = () => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const navigate = useNavigate();
-    
     const { user } = useUserAuthContext();
-    const { isAdmin } = useGlobalDataContext();
+    const { isAdmin, userData } = useGlobalDataContext();
     const { admins, orgs } = useGlobalDbContext();
     
     useEffect(() => {
         const fetchQuizzes = async () => {
-            if (!user || !isAdmin) {
+            if (!user) {
                 setLoading(false);
                 return;
             }
             
             try {
-                // Get organization ID
-                const currentAdmin = admins?.filter(admin => admin.adminEmail === user.email)?.[0];
+                let orgId;
                 
-                if (!currentAdmin) {
-                    console.error('Admin not found for user:', user.email);
-                    setError('Failed to authenticate admin user');
+                // Determine organization ID based on user type
+                if (isAdmin) {
+                    // For admin users
+                    const currentAdmin = admins?.filter(admin => admin.adminEmail === user.email)?.[0];
+                    
+                    if (!currentAdmin) {
+                        console.error('Admin not found for user:', user.email);
+                        setError('Failed to authenticate admin user');
+                        setLoading(false);
+                        return;
+                    }
+                    
+                    const matchingOrg = orgs?.filter(org => org.orgName === currentAdmin.adminOrganization)?.[0];
+                    
+                    if (!matchingOrg) {
+                        console.error('Organization not found for admin:', currentAdmin.adminOrganization);
+                        setError('Failed to load organization data');
+                        setLoading(false);
+                        return;
+                    }
+                    
+                    orgId = matchingOrg.key;
+                } else {
+                    // For normal users
+                    if (!userData || !userData.userOrganization) {
+                        console.error('No organization found for user:', user.email);
+                        setError('Failed to load user organization data');
+                        setLoading(false);
+                        return;
+                    }
+                    
+                    orgId = userData.userOrganization;
+                }
+                
+                // console.log('Fetching quizzes for organization:', orgId);
+                
+                if (!orgId) {
+                    setError('No organization ID found');
                     setLoading(false);
                     return;
                 }
                 
-                const matchingOrg = orgs?.filter(org => org.orgName === currentAdmin.adminOrganization)?.[0];
-                
-                if (!matchingOrg) {
-                    console.error('Organization not found for admin:', currentAdmin.adminOrganization);
-                    setError('Failed to load organization data');
-                    setLoading(false);
-                    return;
-                }
-                
-                const orgId = matchingOrg.key;
-                
-                // Fetch quizzes for this organization
                 const quizzesRef = ref(realtimeDb, `adminQuizzes/${orgId}`);
                 
                 onValue(quizzesRef, (snapshot) => {
@@ -81,7 +102,7 @@ const AdminQuiz = () => {
         };
         
         fetchQuizzes();
-    }, [user, isAdmin, admins, orgs]);
+    }, [user, isAdmin, admins, orgs, userData]);
     
     const toggleQuizExpansion = (quizId) => {
         setExpandedQuiz(expandedQuiz === quizId ? null : quizId);
