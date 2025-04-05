@@ -2,13 +2,13 @@ import './navbar.styles.scss';
 import { Fragment,useState } from 'react';
 import { useNavigate,Outlet } from 'react-router-dom';
 
-const pageIdentifiers=['Home','Quiz','Catalogs','User'];
+const pageIdentifiers=['Quiz','Catalogs','User','Progress'];
 
 
 const Navbar = () => {
     
     const [page,setPage]=useState('Home');
-    const pageNavigators = ['/','/quiz-hub','/catalogs','/user']
+    const pageNavigators = ['/quiz-hub','/catalogs','/user','/progress']
 
     const navigateRouter = useNavigate();
 

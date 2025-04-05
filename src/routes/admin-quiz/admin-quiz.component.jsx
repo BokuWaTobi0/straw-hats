@@ -30,11 +30,9 @@ const AdminQuiz = () => {
             }
             
             try {
-                // Get organization ID
                 const currentAdmin = admins.filter(admin => admin.adminEmail === user.email)[0];
                 const orgId = orgs.filter(org => org.orgName === currentAdmin.adminOrganization)[0].key;
                 
-                // Fetch quizzes for this organization
                 const quizzesRef = ref(realtimeDb, `adminQuizzes/${orgId}`);
                 
                 onValue(quizzesRef, (snapshot) => {
@@ -143,9 +141,9 @@ const AdminQuiz = () => {
         return <div className="error-container">{error}</div>;
     }
     
-    if (!isAdmin) {
-        return <AsyncLoader type="empty" ls="60px" text="You don't have permission to view this page" />;
-    }
+    // if (!isAdmin) {
+    //     return <AsyncLoader type="empty" ls="60px" text="You don't have permission to view this page" />;
+    // }
     
     if (quizzes.length === 0) {
         return (
@@ -161,156 +159,70 @@ const AdminQuiz = () => {
         
         if (quizCompleted) {
             const score = calculateScore();
-            const passThreshold = 70;
-            const isPassed = score.percentage >= passThreshold;
+            const percentage = score.percentage;
+            const isCorrect = (selectedOptionIndex, correctOptionIndex) => selectedOptionIndex === correctOptionIndex;
             
             return (
                 <div className="admin-quiz-div quiz-result-container">
-                    <div className="results-header">
-                        <h2>Quiz Results</h2>
-                        <h3 className="quiz-title">{activeQuiz.name}</h3>
-                    </div>
+                    <h2>Quiz Results</h2>
+                    <p className="quiz-title">{activeQuiz.name}</p>
                     
-                    <div className="score-dashboard">
-                        <div className="score-card">
-                            <div className={`score-circle ${isPassed ? 'pass' : 'fail'}`}>
-                                <div className="score-percentage">{score.percentage}%</div>
-                                <svg className="circle-progress" viewBox="0 0 36 36">
-                                    <path
-                                        className="circle-bg"
-                                        d="M18 2.0845
-                                          a 15.9155 15.9155 0 0 1 0 31.831
-                                          a 15.9155 15.9155 0 0 1 0 -31.831"
-                                    />
-                                    <path
-                                        className="circle-fill"
-                                        strokeDasharray={`${score.percentage}, 100`}
-                                        d="M18 2.0845
-                                          a 15.9155 15.9155 0 0 1 0 31.831
-                                          a 15.9155 15.9155 0 0 1 0 -31.831"
-                                    />
-                                </svg>
-                            </div>
-                            
-                            <div className="score-details">
-                                <div className="score-stat">
-                                    <span className="stat-label">Correct Answers</span>
-                                    <span className="stat-value">{score.correct}/{score.total}</span>
-                                </div>
-                                <div className="score-stat">
-                                    <span className="stat-label">Pass Threshold</span>
-                                    <span className="stat-value">{passThreshold}%</span>
-                                </div>
-                                <div className="score-stat">
-                                    <span className="stat-label">Result</span>
-                                    <span className={`stat-value result ${isPassed ? 'pass' : 'fail'}`}>
-                                        {isPassed ? 'PASSED' : 'FAILED'}
-                                    </span>
-                                </div>
-                            </div>
+                    <div className="results-overview">
+                        <div className="result-stat score">
+                            <span className="label">Score</span>
+                            <div className="value">{percentage}%</div>
+                            <span className="subtext">Overall performance</span>
                         </div>
                         
-                        <div className="performance-feedback">
-                            <div className={`feedback-message ${isPassed ? 'success' : 'warning'}`}>
-                                <div className="message-icon">
-                                    {isPassed ? <FaCheck /> : <FaTimes />}
-                                </div>
-                                <div className="message-content">
-                                    <h4>{isPassed ? 'Congratulations!' : 'Keep Learning'}</h4>
-                                    <p>
-                                        {isPassed 
-                                            ? 'You have successfully completed this quiz with a good understanding of the topic.' 
-                                            : 'You haven\'t reached the passing score yet. Review the questions you missed and try again.'}
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div className="performance-tips">
-                                <h4>Performance Tips</h4>
-                                <ul>
-                                    {isPassed ? (
-                                        <>
-                                            <li>Review any questions you missed to fill knowledge gaps</li>
-                                            <li>Consider taking more advanced quizzes on this topic</li>
-                                            <li>Share your knowledge with others to reinforce learning</li>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <li>Focus on topics where you missed questions</li>
-                                            <li>Take notes on the correct answers for missed questions</li>
-                                            <li>Try the quiz again after reviewing the material</li>
-                                        </>
-                                    )}
-                                </ul>
-                            </div>
+                        <div className="result-stat correct">
+                            <span className="label">Correct</span>
+                            <div className="value">{score.correct}</div>
+                            <span className="subtext">of {score.total} questions</span>
+                        </div>
+                        
+                        <div className="result-stat incorrect">
+                            <span className="label">Incorrect</span>
+                            <div className="value">{score.total - score.correct}</div>
+                            <span className="subtext">need improvement</span>
                         </div>
                     </div>
                     
                     <div className="questions-review">
                         <h3>Question Analysis</h3>
                         
-                        <div className="review-summary">
-                            <div className="summary-item">
-                                <div className="summary-count correct">{score.correct}</div>
-                                <div className="summary-label">Correct</div>
-                            </div>
-                            <div className="summary-item">
-                                <div className="summary-count incorrect">{score.total - score.correct}</div>
-                                <div className="summary-label">Incorrect</div>
-                            </div>
-                            <div className="summary-item">
-                                <div className="summary-count total">{score.total}</div>
-                                <div className="summary-label">Total</div>
-                            </div>
-                        </div>
-                        
-                        <div className="review-questions">
+                        <div className="review-list">
                             {activeQuiz.questions.map((question, qIndex) => {
                                 const selectedOptionIndex = selectedAnswers[qIndex];
-                                const selectedOption = selectedOptionIndex !== undefined 
-                                    ? question.options[selectedOptionIndex] 
-                                    : null;
                                 const correctOptionIndex = question.options.findIndex(opt => opt.isCorrect);
-                                const isCorrect = selectedOption && selectedOption.isCorrect;
+                                const answeredCorrectly = selectedOptionIndex !== undefined && 
+                                                           question.options[selectedOptionIndex].isCorrect;
                                 
                                 return (
-                                    <div key={qIndex} className={`review-question ${isCorrect ? 'correct' : 'incorrect'}`}>
-                                        <div className="question-status">
-                                            <div className={`status-indicator ${isCorrect ? 'correct' : 'incorrect'}`}>
-                                                {isCorrect ? <FaCheck /> : <FaTimes />}
+                                    <div key={qIndex} className="review-item">
+                                        <div className={`question-header ${answeredCorrectly ? 'correct' : 'incorrect'}`}>
+                                            <div className="status-icon">
+                                                {answeredCorrectly ? <FaCheck /> : <FaTimes />}
                                             </div>
-                                            <div className="question-number">Question {qIndex + 1}</div>
+                                            <p className="question-text">{question.text}</p>
+                                            <span className="question-number">Q{qIndex + 1}</span>
                                         </div>
                                         
-                                        <div className="question-content">
-                                            <h4 className="question-text">{question.text}</h4>
-                                            
-                                            <div className="options-review">
+                                        <div className="answers-content">
+                                            <div className="options-list">
                                                 {question.options.map((option, oIndex) => (
                                                     <div 
                                                         key={oIndex} 
-                                                        className={`option-item ${
-                                                            oIndex === selectedOptionIndex ? 'selected' : ''
-                                                        } ${option.isCorrect ? 'correct' : ''} ${
-                                                            oIndex === selectedOptionIndex && !isCorrect ? 'incorrect' : ''
-                                                        }`}
+                                                        className={`option ${selectedOptionIndex === oIndex ? 'selected' : ''} ${option.isCorrect ? 'correct' : ''}`}
                                                     >
-                                                        <div className="option-marker">{String.fromCharCode(65 + oIndex)}</div>
-                                                        <div className="option-text">{option.text}</div>
-                                                        {oIndex === correctOptionIndex && !isCorrect && (
-                                                            <div className="correct-mark">
-                                                                <FaCheck />
-                                                            </div>
-                                                        )}
+                                                        <div className="marker">{String.fromCharCode(65 + oIndex)}</div>
+                                                        <div className="text">{option.text}</div>
                                                     </div>
                                                 ))}
                                             </div>
                                             
-                                            {!isCorrect && (
-                                                <div className="answer-explanation">
-                                                    <p>
-                                                        <strong>Correct Answer:</strong> {question.options[correctOptionIndex].text}
-                                                    </p>
+                                            {!answeredCorrectly && selectedOptionIndex !== undefined && (
+                                                <div className="correct-answer">
+                                                    <strong>Correct Answer:</strong> {question.options[correctOptionIndex].text}
                                                 </div>
                                             )}
                                         </div>
@@ -320,12 +232,12 @@ const AdminQuiz = () => {
                         </div>
                     </div>
                     
-                    <div className="result-actions">
+                    <div className="actions">
                         <button className="btn primary" onClick={() => startQuiz(activeQuiz)}>
-                            <FaPlay className="btn-icon" /> Retry Quiz
+                            <FaPlay /> Retry Quiz
                         </button>
                         <button className="btn secondary" onClick={exitQuiz}>
-                            Back to All Quizzes
+                            Back to Quizzes
                         </button>
                     </div>
                 </div>

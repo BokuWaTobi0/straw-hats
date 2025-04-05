@@ -18,6 +18,7 @@ import Watch from '../src/routes/watch/watch.component';
 import UploadQuiz from "./routes/create-quiz/create-quiz.component";
 import AiQuiz from "./routes/ai-quiz/ai-quiz.component";
 import AdminQuiz from "./routes/admin-quiz/admin-quiz.component";
+import Progress from "./routes/progress/progress.component";
 
 function App() {
 
@@ -56,6 +57,8 @@ function App() {
         <Route path="create-quiz" element={<UploadQuiz/>} />
         <Route path="ai-quiz" element={<AiQuiz/>} />
         <Route path="admin-quiz" element={<AdminQuiz/>} />
+        <Route path="progress" element={<Progress/>} />
+
       </Route>
     </Routes>
     </Fragment>
