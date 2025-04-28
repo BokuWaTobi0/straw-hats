@@ -242,7 +242,7 @@ const AiQuiz = () => {
     };
     
     return (
-        <div className="ai-quiz-container animate__animated animate__fadeInDown">
+        <div className="ai-quiz-container animate__animated animate__fadeIn">
             <div className="ai-quiz-header">
                 <h1>AI-Powered Quiz Generator</h1>
                 <p>Generate custom quizzes on any topic using artificial intelligence</p>

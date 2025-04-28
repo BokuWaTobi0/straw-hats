@@ -152,7 +152,7 @@ const UploadQuiz = () => {
 
   if (submitted) {
     return (
-      <div className="quiz-container success-container animate__animated animate__fadeInDown">
+      <div className="quiz-container success-container animate__animated animate__fadeIn">
         <h2 className="success-heading">Quiz Successfully Created!</h2>
         <p className="success-message">Your quiz {quizName} with {questions.length} questions has been uploaded.</p>
         <button 
@@ -166,7 +166,7 @@ const UploadQuiz = () => {
   }
 
   return (
-    <div className="quiz-container animate__animated animate__fadeInDown">
+    <div className="quiz-container animate__animated animate__fadeIn">
       <h2 className="main-heading">Create New Quiz</h2>
       
       <form onSubmit={handleSubmitQuiz} className="quiz-form">

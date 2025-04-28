@@ -22,6 +22,7 @@ import Progress from "./routes/progress/progress.component";
 import QuizResultsPage from "./routes/quiz-result/quiz-result.component";
 import AiBot from "./components/ai-bot/ai-bot.component";
 import AsyncLoader from "./components/async-loader/async-loader.component";
+import MoodCheck from "./components/mood-check/mood-check.component";
 import 'animate.css'
 
 function App() {
@@ -74,6 +75,7 @@ function App() {
       </Route>
     </Routes>
     <AiBot />
+    <MoodCheck />
     </Fragment>
   )
 }

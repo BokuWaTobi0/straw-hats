@@ -286,7 +286,7 @@ const Progress = () => {
     }
     
     return (
-        <div className="progress-div animate__animated animate__fadeInDown">
+        <div className="progress-div animate__animated animate__fadeIn">
             <h2>Your Learning Progress</h2>
             
             <div className="stats-grid">

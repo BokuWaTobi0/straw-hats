@@ -93,7 +93,7 @@ const UploadVideo = () => {
     }
 
     return ( 
-        <div className='upload-video-div animate__animated animate__fadeInDown'>
+        <div className='upload-video-div animate__animated animate__fadeIn'>
             <div className="upload-header">
                 <FaUpload className="upload-icon" />
                 <h1>Upload Video</h1>
